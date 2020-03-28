@@ -46,6 +46,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'djmdws.middlewares.access_checker.AccessChecker',
     'djmdws.middlewares.timeout_checker.TimeoutChecker',
 ]
 
@@ -76,6 +77,26 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
+# CACHE CONFIG
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'PASSWORD': '123456'
+        }
+    },
+    'access_check': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/2',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'PASSWORD': '123456'
+        }
     }
 }
 
@@ -122,3 +143,9 @@ VIEW_TIMEOUT_TIME = 1
 PROJECT_FILE_PATH = {
     'TIMEOUT_URL': '/Users/tzx/test/timeout_url/timeout_url.txt'
 }
+
+# ACCESS CHECKER CONFIG
+ACCRESS_CHECK_PREFIX = 'djmdws_user_access_'
+ACCRESS_CHECK_INTERVAL = 30
+ACCRESS_CHECK_COUNT = 10
+ACCESS_BLACKLIST_INTERVAL = 300

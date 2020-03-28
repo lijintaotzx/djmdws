@@ -5,5 +5,5 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^timeout_checker_test/', views.timeout_checker),
+    url(r'^timeout_checker_test/$', views.timeout_checker),
 ]
