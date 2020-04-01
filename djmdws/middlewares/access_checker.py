@@ -1,7 +1,7 @@
 # coding=utf-8
 from django.conf import settings
 from django.core.cache import caches
-from django.http import HttpResponse
+from django.http import HttpResponseForbidden
 from django.utils.deprecation import MiddlewareMixin
 
 cache = caches['access_check']
@@ -30,6 +30,6 @@ class AccessChecker(MiddlewareMixin):
         addr = request.META['REMOTE_ADDR']
 
         if self.check_black_list(addr):
-            return HttpResponse('过分了哈！')
+            return HttpResponseForbidden('过分了哈！')
 
         self.set_access_info(addr)
